@@ -14,7 +14,8 @@ plugins {
     alias(libs.plugins.navigation)
 }
 
-val packageName = "org.linphone"
+// DzCentrex : identifiant propre (définitif sur le Play Store). Le code garde le paquet org.linphone (namespace).
+val packageName = "dz.dzcentrex.telephone"
 val useDifferentPackageNameForDebugBuild = false
 
 val sdkPath = providers.gradleProperty("LinphoneSdkBuildDir").get()
@@ -122,7 +123,7 @@ android {
         variant.outputs
             .map { it as com.android.build.gradle.internal.api.BaseVariantOutputImpl }
             .forEach { output ->
-                output.outputFileName = "linphone-android-${variant.buildType.name}-$gitVersion.apk"
+                output.outputFileName = "dzcentrex-android-${variant.buildType.name}-$gitVersion.apk"
             }
     }
 

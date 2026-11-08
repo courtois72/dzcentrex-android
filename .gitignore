@@ -12,3 +12,7 @@ app/release/
 .idea/
 app/bc-android.keystore
 .kotlin/
+
+# DzCentrex : clé de signature et Firebase, fournis par les secrets GitHub (jamais dans le dépôt).
+app/*.p12
+app/google-services.json
