@@ -15,7 +15,7 @@ plugins {
 }
 
 // DzCentrex : identifiant propre (définitif sur le Play Store). Le code garde le paquet org.linphone (namespace).
-val packageName = "dz.dzcentrex.telephone"
+val packageName = "dzcentrex.telephone"
 val useDifferentPackageNameForDebugBuild = false
 
 val sdkPath = providers.gradleProperty("LinphoneSdkBuildDir").get()
