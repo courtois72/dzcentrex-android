@@ -472,6 +472,8 @@ class MainActivity : GenericActivity() {
         viewModel.enableAccountMonitoring(true)
         viewModel.updateMissingPermissionAlert()
         viewModel.updateAccountsAndNetworkReachability()
+        // DzCentrex : batterie sans restriction et démarrage automatique (Xiaomi), pour recevoir les appels.
+        org.linphone.dzcentrex.ReglagesTelephone.verifier(this)
     }
 
     override fun onNewIntent(intent: Intent) {

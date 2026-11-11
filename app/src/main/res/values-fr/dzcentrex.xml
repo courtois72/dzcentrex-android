@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- DzCentrex : textes ajoutés à Linphone Android (GPLv3). -->
+<resources>
+    <string name="dzcentrex_batterie_titre">Recevoir les appels à tout moment</string>
+    <string name="dzcentrex_batterie_message">Pour sonner même appli fermée, DzCentrex ne doit pas être limitée par l\'économie de batterie. Sur l\'écran suivant, choisissez « Autoriser ».</string>
+    <string name="dzcentrex_xiaomi_titre">Démarrage automatique</string>
+    <string name="dzcentrex_xiaomi_message">Sur ce téléphone, activez « Démarrage automatique » pour DzCentrex, sinon les appels risquent de ne pas arriver appli fermée.</string>
+    <string name="dzcentrex_ouvrir_reglages">Ouvrir les réglages</string>
+    <string name="dzcentrex_plus_tard">Plus tard</string>
+</resources>

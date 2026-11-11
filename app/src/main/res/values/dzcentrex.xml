@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- DzCentrex : textes ajoutés à Linphone Android (GPLv3). -->
+<resources>
+    <string name="dzcentrex_batterie_titre">Receive calls at any time</string>
+    <string name="dzcentrex_batterie_message">To ring even when the app is closed, DzCentrex must not be restricted by battery optimization. On the next screen, choose \"Allow\".</string>
+    <string name="dzcentrex_xiaomi_titre">Automatic start</string>
+    <string name="dzcentrex_xiaomi_message">On this phone, enable \"Autostart\" for DzCentrex, otherwise calls may not arrive when the app is closed.</string>
+    <string name="dzcentrex_ouvrir_reglages">Open settings</string>
+    <string name="dzcentrex_plus_tard">Later</string>
+</resources>

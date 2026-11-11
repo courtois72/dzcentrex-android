@@ -11,6 +11,8 @@ Modifications par rapport à Linphone (voir l'historique Git) :
 - notifications push par le projet Firebase de DzCentrex ;
 - réglages par défaut : IPv6 désactivé, service gardé actif, pas de création de compte linphone.org ni de
   réunions, pas de serveurs de fichiers, de journaux ni de vérification de version de linphone.org ;
+- au lancement, demande de l'exemption de l'optimisation de la batterie et, sur Xiaomi/Redmi/Poco, du
+  démarrage automatique (`org.linphone.dzcentrex.ReglagesTelephone`) ;
 - compilation par GitHub Actions (`.github/workflows/compiler.yml`).
 
 Le SDK Linphone n'est pas modifié (paquets publiés par Belledonne Communications).
