@@ -15,7 +15,7 @@ Modifications par rapport à Linphone (voir l'historique Git) :
   bienvenue, de connexion linphone.org ni de saisie manuelle d'un compte SIP ; un seul compte ; réglages du compte et
   avancés, LDAP, CardDAV, enregistrement des appels et liens d'aide de Linphone cachés ;
 - couleurs « Nuit et palmier » (bleu nuit, vert feuille) à la place de l'orange de Linphone ;
-- au lancement, demande de l'exemption de l'optimisation de la batterie et, sur Xiaomi/Redmi/Poco, du
+- au lancement, demande des notifications plein écran (Android 14+, écran allumé à la sonnerie), de l'exemption de l'optimisation de la batterie et, sur Xiaomi/Redmi/Poco, du
   démarrage automatique (`org.linphone.dzcentrex.ReglagesTelephone`) ;
 - compilation par GitHub Actions (`.github/workflows/compiler.yml`).
 

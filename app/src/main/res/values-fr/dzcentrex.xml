@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- DzCentrex : textes ajoutés à Linphone Android (GPLv3). -->
 <resources>
+    <string name="dzcentrex_plein_ecran_titre">Afficher les appels entrants</string>
+    <string name="dzcentrex_plein_ecran_message">Pour que l\'écran s\'allume quand un appel arrive, autorisez les notifications plein écran pour DzCentrex sur l\'écran suivant.</string>
     <string name="dzcentrex_batterie_titre">Recevoir les appels à tout moment</string>
     <string name="dzcentrex_batterie_message">Pour sonner même appli fermée, DzCentrex ne doit pas être limitée par l\'économie de batterie. Sur l\'écran suivant, choisissez « Autoriser ».</string>
     <string name="dzcentrex_xiaomi_titre">Démarrage automatique</string>

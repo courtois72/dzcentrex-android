@@ -2,6 +2,7 @@
  * DzCentrex : modification de Linphone Android (GPLv3), voir LISEZMOI-DZCENTREX.md.
  *
  * Réglages du téléphone dont dépend la réception des appels quand l'appli est en arrière-plan :
+ * notifications plein écran (Android 14+, écran allumé à la sonnerie),
  * batterie sans restriction (toutes marques), puis démarrage automatique (Xiaomi, Redmi, Poco : MIUI/HyperOS
  * tue l'appli sinon). Demandés une fois par lancement de l'appli, à l'ouverture de l'écran principal.
  */
@@ -18,6 +19,7 @@ import android.os.PowerManager
 import android.provider.Settings
 import androidx.appcompat.app.AlertDialog
 import org.linphone.R
+import org.linphone.compatibility.Compatibility
 import org.linphone.core.tools.Log
 
 object ReglagesTelephone {
@@ -26,10 +28,20 @@ object ReglagesTelephone {
     private const val CLE_XIAOMI = "xiaomi_demarrage_auto_propose"
 
     private var dejaDemande = false
+    private var pleinEcranDemande = false
     private var dialogueOuvert = false
 
     fun verifier(activity: Activity) {
         if (dialogueOuvert) return
+        // Android 14+ : sans « notifications plein écran », l'appel sonne mais l'écran reste éteint.
+        if (!pleinEcranDemande && !Compatibility.hasFullScreenIntentPermission(activity)) {
+            pleinEcranDemande = true
+            Log.w("$TAG Notifications plein écran non autorisées : demande")
+            dialogue(activity, R.string.dzcentrex_plein_ecran_titre, R.string.dzcentrex_plein_ecran_message) {
+                Compatibility.requestFullScreenIntentPermission(activity)
+            }
+            return
+        }
         val pm = activity.getSystemService(Context.POWER_SERVICE) as PowerManager
         if (!pm.isIgnoringBatteryOptimizations(activity.packageName)) {
             if (dejaDemande) return
