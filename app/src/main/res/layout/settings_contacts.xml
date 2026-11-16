@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- DzCentrex : carnets d'adresses LDAP et CardDAV cachés (annuaire fourni par le provisioning). -->
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
@@ -134,7 +135,7 @@
             android:drawableEnd="@drawable/caret_right"
             android:drawableTint="?attr/color_main2_600"
             android:background="@drawable/squircle_transparent_button_background"
-            android:visibility="@{viewModel.ldapAvailable ? View.VISIBLE : View.GONE}"
+            android:visibility="gone"
             app:layout_constraintTop_toBottomOf="@id/hide_empty_contacts_switch"
             app:layout_constraintBottom_toTopOf="@id/existing_ldap_servers"
             app:layout_constraintStart_toStartOf="parent"
@@ -148,7 +149,7 @@
             android:layout_marginEnd="16dp"
             android:layout_marginTop="6dp"
             android:orientation="vertical"
-            android:visibility="@{viewModel.ldapServers.size() == 0 ? View.GONE : View.VISIBLE, default=gone}"
+            android:visibility="gone"
             app:entries="@{viewModel.ldapServers}"
             app:layout="@{@layout/settings_contacts_carddav_ldap_list_cell}"
             app:layout_constraintTop_toBottomOf="@id/add_ldap_server"
@@ -159,6 +160,7 @@
             style="@style/settings_title_style"
             android:onClick="@{() -> viewModel.addCardDavServer()}"
             android:id="@+id/add_carddav_server"
+            android:visibility="gone"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -184,7 +186,7 @@
             android:layout_marginEnd="16dp"
             android:layout_marginTop="6dp"
             android:orientation="vertical"
-            android:visibility="@{viewModel.cardDavFriendsLists.size() == 0 ? View.GONE : View.VISIBLE, default=gone}"
+            android:visibility="gone"
             app:entries="@{viewModel.cardDavFriendsLists}"
             app:layout="@{@layout/settings_contacts_carddav_ldap_list_cell}"
             app:layout_constraintTop_toBottomOf="@id/add_carddav_server"

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- DzCentrex : palette « Nuit et palmier » (bleu nuit, vert feuille), à la place de l'orange de Linphone. -->
+<resources>
+    <color name="dz_main_100">#E0E7F3</color>
+    <color name="dz_main_500">#1D3A6B</color>
+    <!-- Mode sombre : bleu éclairci, le bleu nuit ne se lit pas sur fond noir. -->
+    <color name="dz_main_100_night">#22324A</color>
+    <color name="dz_main_500_night">#7FA4DE</color>
+    <color name="dz_vert_500">#5BB85D</color>
+    <color name="dz_vert_500_night">#6CC46E</color>
+    <color name="dz_degrade_vert">#1F7A6A</color>
+</resources>

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- DzCentrex : liens vers Linphone (guide, confidentialité, traductions, mises à jour) cachés. -->
 <layout xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
@@ -116,7 +117,8 @@
                             app:tint="?attr/color_main1_500"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintEnd_toStartOf="@id/user_guide_title"
-                            app:layout_constraintTop_toTopOf="@id/user_guide_title"/>
+                            app:layout_constraintTop_toTopOf="@id/user_guide_title"
+                            android:visibility="gone"/>
 
                         <androidx.appcompat.widget.AppCompatTextView
                             style="@style/header_style"
@@ -133,7 +135,8 @@
                             app:drawableTint="?attr/color_main2_600"
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintStart_toEndOf="@id/user_guide_icon"
-                            app:layout_constraintEnd_toEndOf="parent"/>
+                            app:layout_constraintEnd_toEndOf="parent"
+                            android:visibility="gone"/>
 
                         <androidx.appcompat.widget.AppCompatTextView
                             style="@style/default_text_style"
@@ -148,7 +151,8 @@
                             android:textColor="?attr/color_main2_600"
                             app:layout_constraintTop_toBottomOf="@id/user_guide_title"
                             app:layout_constraintStart_toEndOf="@id/user_guide_icon"
-                            app:layout_constraintEnd_toEndOf="parent" />
+                            app:layout_constraintEnd_toEndOf="parent" 
+                            android:visibility="gone"/>
 
                         <ImageView
                             android:onClick="@{privacyPolicyClickListener}"
@@ -161,7 +165,8 @@
                             app:tint="?attr/color_main1_500"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintEnd_toStartOf="@id/privacy_policy_title"
-                            app:layout_constraintTop_toTopOf="@id/privacy_policy_title"/>
+                            app:layout_constraintTop_toTopOf="@id/privacy_policy_title"
+                            android:visibility="gone"/>
 
                         <androidx.appcompat.widget.AppCompatTextView
                             style="@style/header_style"
@@ -178,7 +183,8 @@
                             app:drawableTint="?attr/color_main2_600"
                             app:layout_constraintTop_toBottomOf="@id/user_guide_subtitle"
                             app:layout_constraintStart_toEndOf="@id/privacy_policy_icon"
-                            app:layout_constraintEnd_toEndOf="parent"/>
+                            app:layout_constraintEnd_toEndOf="parent"
+                            android:visibility="gone"/>
 
                         <androidx.appcompat.widget.AppCompatTextView
                             style="@style/default_text_style"
@@ -193,7 +199,8 @@
                             android:textColor="?attr/color_main2_600"
                             app:layout_constraintTop_toBottomOf="@id/privacy_policy_title"
                             app:layout_constraintStart_toEndOf="@id/privacy_policy_icon"
-                            app:layout_constraintEnd_toEndOf="parent" />
+                            app:layout_constraintEnd_toEndOf="parent" 
+                            android:visibility="gone"/>
 
                         <ImageView
                             android:id="@+id/version_icon"
@@ -244,7 +251,7 @@
                             android:text="@string/help_about_check_for_update"
                             android:maxLines="1"
                             android:ellipsize="end"
-                            android:visibility="@{viewModel.checkUpdateAvailable ? View.VISIBLE : View.GONE}"
+                            android:visibility="gone"
                             tools:ignore="MissingConstraints" />
 
                         <androidx.constraintlayout.helper.widget.Flow
@@ -320,7 +327,8 @@
                             app:tint="?attr/color_main1_500"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintEnd_toStartOf="@id/translate_title"
-                            app:layout_constraintTop_toTopOf="@id/translate_title" />
+                            app:layout_constraintTop_toTopOf="@id/translate_title" 
+                            android:visibility="gone"/>
 
                         <androidx.appcompat.widget.AppCompatTextView
                             style="@style/header_style"
@@ -337,7 +345,8 @@
                             app:drawableTint="?attr/color_main2_600"
                             app:layout_constraintTop_toBottomOf="@id/open_source_licenses_subtitle"
                             app:layout_constraintStart_toEndOf="@id/translate_icon"
-                            app:layout_constraintEnd_toEndOf="parent"/>
+                            app:layout_constraintEnd_toEndOf="parent"
+                            android:visibility="gone"/>
 
                         <androidx.appcompat.widget.AppCompatTextView
                             style="@style/default_text_style"
@@ -354,7 +363,8 @@
                             app:layout_constraintTop_toBottomOf="@id/translate_title"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toEndOf="@id/translate_icon"
-                            app:layout_constraintEnd_toEndOf="parent" />
+                            app:layout_constraintEnd_toEndOf="parent" 
+                            android:visibility="gone"/>
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 

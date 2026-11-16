@@ -69,7 +69,6 @@ import org.linphone.ui.main.chat.fragment.ConversationsListFragmentDirections
 import org.linphone.utils.PasswordDialogModel
 import org.linphone.ui.main.viewmodel.MainViewModel
 import org.linphone.ui.main.viewmodel.SharedMainViewModel
-import org.linphone.ui.welcome.WelcomeActivity
 import org.linphone.utils.AppUtils
 import org.linphone.utils.DialogUtils
 import org.linphone.utils.Event
@@ -400,17 +399,12 @@ class MainActivity : GenericActivity() {
         }
 
         coreContext.postOnCoreThread { core ->
+            // DzCentrex : pas de pages de bienvenue de Linphone, directement l'écran de configuration par QR code.
             if (corePreferences.firstLaunch) {
-                Log.i("$TAG First time Linphone 6.0 has been started, showing Welcome activity")
+                Log.i("$TAG First launch, skipping Linphone Welcome activity")
                 corePreferences.firstLaunch = false
-                coreContext.postOnMainThread {
-                    try {
-                        startActivity(Intent(this, WelcomeActivity::class.java))
-                    } catch (ise: IllegalStateException) {
-                        Log.e("$TAG Can't start activity: $ise")
-                    }
-                }
-            } else if (core.accountList.isEmpty()) {
+            }
+            if (core.accountList.isEmpty()) {
                 Log.w("$TAG No account found, showing Assistant activity")
                 coreContext.postOnMainThread {
                     try {

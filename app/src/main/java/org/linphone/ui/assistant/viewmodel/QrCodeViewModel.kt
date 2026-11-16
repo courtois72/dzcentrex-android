@@ -19,9 +19,16 @@
  */
 package org.linphone.ui.assistant.viewmodel
 
+import android.content.Context
+import android.net.Uri
 import androidx.annotation.UiThread
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import org.linphone.dzcentrex.LectureQrImage
 import org.linphone.LinphoneApplication.Companion.coreContext
 import org.linphone.core.ConfiguringState
 import org.linphone.core.Core
@@ -52,12 +59,14 @@ class QrCodeViewModel
                 Log.e("$TAG Failure applying remote provisioning: $message")
                 showRedToast(R.string.remote_provisioning_config_failed_toast, R.drawable.warning_circle)
                 onErrorEvent.postValue(Event(true))
+                lectureEnCours.postValue(false)
             }
         }
 
         @WorkerThread
         override fun onGlobalStateChanged(core: Core, state: GlobalState?, message: String) {
             if (state == GlobalState.On) {
+                lectureEnCours.postValue(false)
                 if (core.accountList.isEmpty()) {
                     Log.w("$TAG Provisioning was successful but no account has been configured yet, staying in assistant")
                     // Remote provisioning didn't contain any account
@@ -73,32 +82,7 @@ class QrCodeViewModel
         @WorkerThread
         override fun onQrcodeFound(core: Core, result: String?) {
             Log.i("$TAG QR Code found: [$result]")
-            if (result == null) {
-                showRedToast(R.string.assistant_qr_code_invalid_toast, R.drawable.warning_circle)
-            } else {
-                val url = LinphoneUtils.getRemoteProvisioningUrlFromUri(result)
-                if (url == null) {
-                    Log.e("$TAG The content of the QR Code [$result] doesn't seem to be a valid web URL")
-                    showRedToast(R.string.assistant_qr_code_invalid_toast, R.drawable.warning_circle)
-                    return
-                }
-
-                Log.i(
-                    "$TAG Setting QR code URL [$url], restarting the Core outside of iterate() loop to apply configuration changes"
-                )
-                core.nativePreviewWindowId = null
-                core.isVideoPreviewEnabled = false
-                core.isQrcodeVideoPreviewEnabled = false
-                core.provisioningUri = url
-
-                coreContext.postOnCoreThread { core ->
-                    Log.i("$TAG Stopping Core")
-                    core.stop()
-                    Log.i("$TAG Core has been stopped, restarting it")
-                    core.start()
-                    Log.i("$TAG Core has been restarted")
-                }
-            }
+            appliquerQrCode(core, result)
         }
     }
 
@@ -110,6 +94,58 @@ class QrCodeViewModel
             if (coreGlobalState != GlobalState.On) {
                 Log.e("$TAG Core isn't ON (current state is [$coreGlobalState]), video preview won't work!")
             }
+        }
+    }
+
+    // DzCentrex : QR lu par la caméra (onQrcodeFound) ou dans une image du téléphone (lireImage).
+    @WorkerThread
+    private fun appliquerQrCode(core: Core, result: String?) {
+        if (result == null) {
+            lectureEnCours.postValue(false)
+            showRedToast(R.string.assistant_qr_code_invalid_toast, R.drawable.warning_circle)
+            return
+        }
+        val url = LinphoneUtils.getRemoteProvisioningUrlFromUri(result)
+        if (url == null) {
+            lectureEnCours.postValue(false)
+            Log.e("$TAG The content of the QR Code [$result] doesn't seem to be a valid web URL")
+            showRedToast(R.string.assistant_qr_code_invalid_toast, R.drawable.warning_circle)
+            return
+        }
+
+        Log.i(
+            "$TAG Setting QR code URL [$url], restarting the Core outside of iterate() loop to apply configuration changes"
+        )
+        core.nativePreviewWindowId = null
+        core.isVideoPreviewEnabled = false
+        core.isQrcodeVideoPreviewEnabled = false
+        core.provisioningUri = url
+
+        coreContext.postOnCoreThread { core ->
+            Log.i("$TAG Stopping Core")
+            core.stop()
+            Log.i("$TAG Core has been stopped, restarting it")
+            core.start()
+            Log.i("$TAG Core has been restarted")
+        }
+    }
+
+    // DzCentrex : lecture en cours d'une image choisie (sablier sur l'écran de démarrage).
+    val lectureEnCours = MutableLiveData<Boolean>(false)
+
+    @UiThread
+    fun lireImage(context: Context, uri: Uri) {
+        val appli = context.applicationContext
+        lectureEnCours.value = true
+        viewModelScope.launch {
+            val texte = withContext(Dispatchers.Default) { LectureQrImage.lire(appli, uri) }
+            if (texte == null) {
+                lectureEnCours.value = false
+                showRedToast(R.string.dzcentrex_qr_image_illisible, R.drawable.warning_circle)
+                return@launch
+            }
+            Log.i("$TAG QR Code found in image: [$texte]")
+            coreContext.postOnCoreThread { core -> appliquerQrCode(core, texte) }
         }
     }
 

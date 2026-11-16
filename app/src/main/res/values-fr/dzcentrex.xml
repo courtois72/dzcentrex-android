@@ -7,4 +7,10 @@
     <string name="dzcentrex_xiaomi_message">Sur ce téléphone, activez « Démarrage automatique » pour DzCentrex, sinon les appels risquent de ne pas arriver appli fermée.</string>
     <string name="dzcentrex_ouvrir_reglages">Ouvrir les réglages</string>
     <string name="dzcentrex_plus_tard">Plus tard</string>
+    <string name="dzcentrex_demarrage_titre">Configurez votre poste</string>
+    <string name="dzcentrex_demarrage_explication">Scannez le QR code de votre poste pour configurer l\'application. Tout se règle automatiquement.</string>
+    <string name="dzcentrex_demarrage_scanner">Scanner le QR code</string>
+    <string name="dzcentrex_demarrage_image">Choisir une image</string>
+    <string name="dzcentrex_demarrage_ou_trouver">Le QR code se trouve dans votre espace utilisateur ou vous est remis par votre administrateur. Vous pouvez aussi choisir une capture d\'écran ou une image reçue par e-mail.</string>
+    <string name="dzcentrex_qr_image_illisible">Aucun QR code trouvé dans cette image</string>
 </resources>

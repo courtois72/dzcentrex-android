@@ -17,34 +17,29 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+/*
+ * DzCentrex : écran de démarrage réduit à la configuration par QR code, lu par la caméra (écran du scanner de
+ * Linphone) ou dans une image du téléphone (sélecteur de photos, LectureQrImage). Connexion linphone.org, création
+ * et récupération de compte, saisie manuelle d'un compte SIP et aide Linphone retirées.
+ */
 package org.linphone.ui.assistant.fragment
 
-import android.content.ActivityNotFoundException
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
-import android.telephony.TelephonyManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.UiThread
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import org.linphone.LinphoneApplication.Companion.coreContext
-import org.linphone.LinphoneApplication.Companion.corePreferences
 import org.linphone.R
 import org.linphone.core.tools.Log
 import org.linphone.databinding.AssistantLandingFragmentBinding
 import org.linphone.ui.GenericActivity
 import org.linphone.ui.GenericFragment
-import org.linphone.ui.assistant.model.AcceptConditionsAndPolicyDialogModel
 import org.linphone.ui.assistant.viewmodel.AccountLoginViewModel
-import org.linphone.utils.DialogUtils
-import org.linphone.utils.PhoneNumberUtils
-import androidx.core.net.toUri
+import org.linphone.ui.assistant.viewmodel.QrCodeViewModel
 
 @UiThread
 class LandingFragment : GenericFragment() {
@@ -57,6 +52,19 @@ class LandingFragment : GenericFragment() {
     private val viewModel: AccountLoginViewModel by navGraphViewModels(
         R.id.assistant_nav_graph
     )
+
+    private val qrCodeViewModel: QrCodeViewModel by navGraphViewModels(
+        R.id.assistant_nav_graph
+    )
+
+    private val choixImage = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+        if (uri == null) {
+            Log.i("$TAG No image chosen")
+        } else {
+            Log.i("$TAG Image chosen, looking for a QR code in it")
+            qrCodeViewModel.lireImage(requireContext(), uri)
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -73,25 +81,10 @@ class LandingFragment : GenericFragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
         observeToastEvents(viewModel)
+        observeToastEvents(qrCodeViewModel)
 
         binding.setBackClickListener {
             requireActivity().finish()
-        }
-
-        binding.setHelpClickListener {
-            if (findNavController().currentDestination?.id == R.id.landingFragment) {
-                val action =
-                    LandingFragmentDirections.actionLandingFragmentToHelpFragment()
-                findNavController().navigate(action)
-            }
-        }
-
-        binding.setRegisterClickListener {
-            if (viewModel.conditionsAndPrivacyPolicyAccepted) {
-                goToRegisterFragment()
-            } else {
-                showAcceptConditionsAndPrivacyDialog(goToAccountCreate = true)
-            }
         }
 
         binding.setQrCodeClickListener {
@@ -102,145 +95,27 @@ class LandingFragment : GenericFragment() {
             }
         }
 
-        binding.setThirdPartySipAccountLoginClickListener {
-            if (viewModel.conditionsAndPrivacyPolicyAccepted) {
-                goToLoginThirdPartySipAccountFragment(false)
-            } else {
-                showAcceptConditionsAndPrivacyDialog(goToThirdPartySipAccountLogin = true)
-            }
+        binding.setImageClickListener {
+            choixImage.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
         }
 
-        binding.setForgottenPasswordClickListener {
-            if (findNavController().currentDestination?.id == R.id.landingFragment) {
-                val action =
-                    LandingFragmentDirections.actionLandingFragmentToRecoverAccountFragment()
-                findNavController().navigate(action)
-            }
+        qrCodeViewModel.lectureEnCours.observe(viewLifecycleOwner) {
+            binding.lectureEnCours = it
         }
 
-        viewModel.showPassword.observe(viewLifecycleOwner) {
-            lifecycleScope.launch {
-                delay(50)
-                binding.password.setSelection(binding.password.text?.length ?: 0)
-            }
-        }
-
-        viewModel.accountLoggedInEvent.observe(viewLifecycleOwner) {
-            it.consume {
-                Log.i("$TAG Account successfully logged-in, leaving assistant")
-                requireActivity().finish()
-            }
-        }
-
-        viewModel.accountLoginErrorEvent.observe(viewLifecycleOwner) {
-            it.consume { message ->
-                (requireActivity() as GenericActivity).showRedToast(
-                    message,
-                    R.drawable.warning_circle
-                )
-            }
-        }
-
-        viewModel.skipLandingToThirdPartySipAccountEvent.observe(viewLifecycleOwner) {
-            it.consume {
-                goToLoginThirdPartySipAccountFragment(true)
-            }
-        }
-
-        val telephonyManager = requireContext().getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
-        val countryIso = telephonyManager.networkCountryIso
-        coreContext.postOnCoreThread {
-            val dialPlan = PhoneNumberUtils.getDeviceDialPlan(countryIso)
-            if (dialPlan != null) {
-                viewModel.internationalPrefix.postValue(dialPlan.countryCallingCode)
-                viewModel.internationalPrefixIsoCountryCode.postValue(dialPlan.isoCountryCode)
-            }
-        }
-    }
-
-    private fun goToRegisterFragment() {
-        if (findNavController().currentDestination?.id == R.id.landingFragment) {
-            val action = LandingFragmentDirections.actionLandingFragmentToRegisterFragment()
-            findNavController().navigate(action)
-        }
-    }
-
-    private fun goToLoginThirdPartySipAccountFragment(skipWarning: Boolean) {
-        if (findNavController().currentDestination?.id == R.id.landingFragment) {
-            val action = if (skipWarning) {
-                LandingFragmentDirections.actionLandingFragmentToThirdPartySipAccountLoginFragment()
-            } else {
-                LandingFragmentDirections.actionLandingFragmentToThirdPartySipAccountWarningFragment()
-            }
-            findNavController().navigate(action)
-        }
-    }
-
-    private fun showAcceptConditionsAndPrivacyDialog(
-        goToAccountCreate: Boolean = false,
-        goToThirdPartySipAccountLogin: Boolean = false
-    ) {
-        val model = AcceptConditionsAndPolicyDialogModel()
-        val dialog = DialogUtils.getAcceptConditionsAndPrivacyDialog(
-            requireActivity(),
-            model
-        )
-
-        model.dismissEvent.observe(viewLifecycleOwner) {
-            it.consume {
-                dialog.dismiss()
-            }
-        }
-
-        model.conditionsAcceptedEvent.observe(viewLifecycleOwner) {
-            it.consume {
-                Log.i("$TAG Conditions & Privacy policy have been accepted")
-                coreContext.postOnCoreThread {
-                    corePreferences.conditionsAndPrivacyPolicyAccepted = true
-                }
-                dialog.dismiss()
-
-                if (goToAccountCreate) {
-                    goToRegisterFragment()
-                } else if (goToThirdPartySipAccountLogin) {
-                    goToLoginThirdPartySipAccountFragment(false)
+        // QR lu dans une image : même suite que depuis l'écran du scanner.
+        qrCodeViewModel.remoteProvisioningSuccessfulEvent.observe(viewLifecycleOwner) {
+            it.consume { atLeastOneAccountFound ->
+                if (atLeastOneAccountFound) {
+                    Log.i("$TAG Remote provisioning applied, leaving assistant")
+                    requireActivity().finish()
+                } else {
+                    (requireActivity() as GenericActivity).showRedToast(
+                        getString(R.string.assistant_qr_code_invalid_toast),
+                        R.drawable.warning_circle
+                    )
                 }
             }
-        }
-
-        model.privacyPolicyClickedEvent.observe(viewLifecycleOwner) {
-            it.consume {
-                val url = getString(R.string.website_privacy_policy_url)
-                openUrlInBrowser(url)
-            }
-        }
-
-        model.generalTermsClickedEvent.observe(viewLifecycleOwner) {
-            it.consume {
-                val url = getString(R.string.website_terms_and_conditions_url)
-                openUrlInBrowser(url)
-            }
-        }
-
-        dialog.show()
-    }
-
-    private fun openUrlInBrowser(url: String) {
-        try {
-            val browserIntent = Intent(Intent.ACTION_VIEW, url.toUri())
-            startActivity(browserIntent)
-        } catch (ise: IllegalStateException) {
-            Log.e(
-                "$TAG Can't start ACTION_VIEW intent for URL [$url], IllegalStateException: $ise"
-            )
-        } catch (anfe: ActivityNotFoundException) {
-            Log.e(
-                "$TAG Can't start ACTION_VIEW intent for URL [$url], ActivityNotFoundException: $anfe"
-            )
-        } catch (e: Exception) {
-            Log.e(
-                "$TAG Can't start ACTION_VIEW intent for URL [$url]: $e"
-            )
         }
     }
 }
