@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- DzCentrex : fond de l'icône, dégradé « Nuit et palmier ». -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <gradient android:angle="315" android:startColor="@color/dz_main_500" android:endColor="@color/dz_degrade_vert" />
+</shape>

@@ -52,16 +52,6 @@ return_empty_friends=1
 imdn_to_everybody_threshold=1
 
 [ui]
-# DzCentrex : pas de création de compte linphone.org, pas de réunions (non prises en charge par le serveur).
-assistant_hide_create_account=1
-disable_meetings_feature=1
-# DzCentrex : un seul poste par appli, configuré par QR code seulement (pas de saisie manuelle) ; réglages du compte et
-# réglages avancés cachés (tout vient du QR) ; pas d'enregistrement des appels sur le téléphone.
-assistant_hide_third_party_account=1
-max_account=1
-hide_account_settings=1
-hide_advanced_settings=1
-disable_call_recordings_feature=1
 contacts_filter=
 
 

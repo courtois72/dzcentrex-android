@@ -309,7 +309,7 @@
                 android:src="@drawable/check"
                 android:contentDescription="@string/content_description_create_group_call"
                 app:tint="?attr/color_on_main"
-                app:backgroundTint="?attr/color_main1_500"
+                app:backgroundTint="?attr/color_dz_accent"
                 app:shapeAppearanceOverlay="@style/rounded"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent" />
@@ -325,7 +325,7 @@
                 android:contentDescription="@string/content_description_show_numpad"
                 android:visibility="@{viewModel.isNumpadVisible || viewModel.multipleSelectionMode ? View.GONE : View.VISIBLE}"
                 app:tint="?attr/color_on_main"
-                app:backgroundTint="?attr/color_main1_500"
+                app:backgroundTint="?attr/color_dz_accent"
                 app:shapeAppearanceOverlay="@style/rounded"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent" />

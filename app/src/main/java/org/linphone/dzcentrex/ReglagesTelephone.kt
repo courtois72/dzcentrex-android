@@ -28,14 +28,13 @@ object ReglagesTelephone {
     private const val CLE_XIAOMI = "xiaomi_demarrage_auto_propose"
 
     private var dejaDemande = false
-    private var pleinEcranDemande = false
     private var dialogueOuvert = false
 
     fun verifier(activity: Activity) {
         if (dialogueOuvert) return
         // Android 14+ : sans « notifications plein écran », l'appel sonne mais l'écran reste éteint.
-        if (!pleinEcranDemande && !Compatibility.hasFullScreenIntentPermission(activity)) {
-            pleinEcranDemande = true
+        if (!Compatibility.hasFullScreenIntentPermission(activity)) {
+            // Redemandé à chaque retour dans l'appli tant que ce n'est pas autorisé : indispensable pour décrocher.
             Log.w("$TAG Notifications plein écran non autorisées : demande")
             dialogue(activity, R.string.dzcentrex_plein_ecran_titre, R.string.dzcentrex_plein_ecran_message) {
                 Compatibility.requestFullScreenIntentPermission(activity)

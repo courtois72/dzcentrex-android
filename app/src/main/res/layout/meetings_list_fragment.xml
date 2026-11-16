@@ -31,7 +31,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="?attr/color_main1_500">
+                android:background="@drawable/dz_degrade_barre">
 
                 <androidx.constraintlayout.widget.Group
                     android:layout_width="wrap_content"
@@ -128,7 +128,7 @@
                     android:src="@drawable/video_conference_plus"
                     android:contentDescription="@string/content_description_schedule_meeting"
                     app:tint="?attr/color_on_main"
-                    app:backgroundTint="?attr/color_main1_500"
+                    app:backgroundTint="?attr/color_dz_accent"
                     app:shapeAppearanceOverlay="@style/rounded"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintBottom_toTopOf="@id/bottom_nav_bar" />

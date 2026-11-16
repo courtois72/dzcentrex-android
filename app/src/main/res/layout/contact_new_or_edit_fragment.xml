@@ -430,7 +430,7 @@
             android:src="@drawable/check"
             android:contentDescription="@string/content_description_save_changes"
             app:tint="?attr/color_on_main"
-            app:backgroundTint="?attr/color_main1_500"
+            app:backgroundTint="?attr/color_dz_accent"
             app:shapeAppearanceOverlay="@style/rounded"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />

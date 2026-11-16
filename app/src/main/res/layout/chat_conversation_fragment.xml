@@ -381,7 +381,7 @@
                     android:contentDescription="@string/content_description_chat_scroll_to_bottom_or_first_unread"
                     android:visibility="@{viewModel.isUserScrollingUp ? View.VISIBLE : View.GONE}"
                     app:tint="?attr/color_on_main"
-                    app:backgroundTint="?attr/color_main1_500"
+                    app:backgroundTint="?attr/color_dz_accent"
                     app:shapeAppearanceOverlay="@style/rounded"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintBottom_toTopOf="@id/send_area" />

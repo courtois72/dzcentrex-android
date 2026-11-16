@@ -14,7 +14,10 @@ Modifications par rapport à Linphone (voir l'historique Git) :
 - démarrage par QR code seulement (caméra ou image du téléphone, lue avec ZXing, Apache 2.0) : pas de pages de
   bienvenue, de connexion linphone.org ni de saisie manuelle d'un compte SIP ; un seul compte ; réglages du compte et
   avancés, LDAP, CardDAV, enregistrement des appels et liens d'aide de Linphone cachés ;
-- couleurs « Nuit et palmier » (bleu nuit, vert feuille) à la place de l'orange de Linphone ;
+- couleurs « Nuit et palmier » : barre du haut en dégradé bleu nuit vers vert, boutons d'action en vert feuille,
+  logo provisoire (combiné blanc sur dégradé) à la place du logo Linphone (icône, lancement, notifications) ;
+- restrictions de l'interface (un seul compte, réglages cachés) dans `linphonerc_factory`, pour qu'elles
+  s'appliquent aussi après une mise à jour ;
 - au lancement, demande des notifications plein écran (Android 14+, écran allumé à la sonnerie), de l'exemption de l'optimisation de la batterie et, sur Xiaomi/Redmi/Poco, du
   démarrage automatique (`org.linphone.dzcentrex.ReglagesTelephone`) ;
 - compilation par GitHub Actions (`.github/workflows/compiler.yml`).
