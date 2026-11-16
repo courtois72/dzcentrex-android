@@ -33,7 +33,9 @@ coil = "3.6.3"
 dotsIndicator = "5.1.2"
 photoview = "2.3.0"
 openidAppauth = "0.11.1"
-linphone = "5.5.+"
+# DzCentrex : version figée. "5.5.+" prenait les pré-versions publiées la nuit par Belledonne ;
+# 5.5.42-pre.3 (16/11/2026) n'allume plus l'écran à la sonnerie, 5.5.42-pre.2 (test1) oui.
+linphone = "5.5.42-pre.2+67fff679d7"
 
 [libraries]
 zxing-core = { group = "com.google.zxing", name = "core", version.ref = "zxing" }
