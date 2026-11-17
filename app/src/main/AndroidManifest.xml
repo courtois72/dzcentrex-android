@@ -195,7 +195,10 @@
             android:stopWithTask="false"
             android:label="@string/app_name" />
 
-        <service android:name="org.linphone.core.tools.firebase.FirebaseMessaging"
+        <!-- DzCentrex : PushDz traite les push « dz » (annuaire) et passe les autres au service du SDK, qui ne doit
+             pas recevoir les push lui-même (un seul service pour MESSAGING_EVENT). -->
+        <service android:name="org.linphone.core.tools.firebase.FirebaseMessaging" tools:node="remove" />
+        <service android:name="org.linphone.contacts.PushDz"
             android:enabled="true"
             android:exported="false">
             <intent-filter>
