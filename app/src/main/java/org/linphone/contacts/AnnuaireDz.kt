@@ -82,7 +82,10 @@ object AnnuaireDz {
         MessageDigest.getInstance("MD5").digest(s.toByteArray()).joinToString("") { "%02x".format(it) }
 
     @WorkerThread
-    private fun importer(core: Core, vcards: String) {
+    private fun importer(core: Core, vcards: String, essai: Int = 1) {
+        // La liste par défaut de Linphone doit exister avant la nôtre : sinon la nôtre le devient, et Linphone la vide en
+        // rechargeant son propre annuaire (contacts-vcard-list) quelques secondes après (test8 : collègues disparus).
+        Log.i("$TAG Liste par défaut : ${core.defaultFriendList?.displayName}")
         val liste = core.getFriendListByName(NOM_LISTE) ?: core.createFriendList().also {
             it.displayName = NOM_LISTE
             it.type = FriendList.Type.Default
@@ -114,5 +117,15 @@ object AnnuaireDz {
         liste.updateSubscriptions()
         Log.i("$TAG $n collègue(s) chargé(s)")
         coreContext.contactsManager.notifyContactsListChanged()
+        // Filet de sécurité : si la liste a été vidée entre-temps, on la remplit à nouveau (deux fois au plus).
+        if (n > 0 && essai < 3) {
+            coreContext.postOnCoreThreadDelayed({ c ->
+                val restants = c.getFriendListByName(NOM_LISTE)?.friends?.size ?: 0
+                if (restants < n) {
+                    Log.w("$TAG Liste vidée ($restants sur $n), nouvel import")
+                    importer(c, vcards, essai + 1)
+                }
+            }, 10000)
+        }
     }
 }
