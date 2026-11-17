@@ -380,8 +380,25 @@ class ContactsListViewModel
         val collator = Collator.getInstance(Locale.getDefault())
         val hideEmptyContacts = corePreferences.hideContactsWithoutPhoneNumberOrSipAddress
 
+        // DzCentrex, onglet Entreprise : directement la liste de l'annuaire (filtrée par la recherche), pas les résultats
+        // de la recherche Linphone, qui donnent pour un collègue déjà appelé sa fiche de l'historique (test9 : un seul
+        // collègue affiché, celui qui n'avait jamais été appelé).
+        if (entreprise) {
+            val recherche = currentFilter.lowercase()
+            val collegues = coreContext.core.getFriendListByName(org.linphone.contacts.AnnuaireDz.NOM_LISTE)?.friends.orEmpty()
+            for (ami in collegues) {
+                if (favourites) break
+                val texte = "${ami.name.orEmpty()} ${ami.address?.username.orEmpty()}".lowercase()
+                if (recherche.isNotEmpty() && !texte.contains(recherche)) continue
+                val model = coreContext.contactsManager.getContactAvatarModelForFriend(ami)
+                model.refreshSortingName()
+                model.isFavourite.postValue(true)
+                list.add(model)
+            }
+        }
+
         for (result in results) {
-            if (aMasquer(result) || estCollegue(result) != entreprise) continue
+            if (entreprise || aMasquer(result) || estCollegue(result)) continue
             val friend = result.friend
             if (friend != null) {
                 if (hideEmptyContacts && friend.addresses.isEmpty() && friend.phoneNumbers.isEmpty()) {
