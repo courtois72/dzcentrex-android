@@ -31,7 +31,7 @@ object AnnuaireDz {
             Log.i("$TAG Pas d'annuaire (adresse ou compte absent)")
             return
         }
-        val utilisateur = auth.username
+        val utilisateur = auth.username ?: return
         val ha1 = auth.ha1.orEmpty()
         Thread {
             try {
