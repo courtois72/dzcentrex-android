@@ -74,6 +74,21 @@ class PermissionsFragment : GenericFragment() {
                 "$TAG Not all permissions were granted, leaving anyway, they will be asked again later..."
             )
         }
+        // DzCentrex : dans la même suite que micro, contacts et caméra, les appels en plein écran (Android 14+ :
+        // sans eux, le téléphone sonne écran éteint). Page des réglages Android, puis on continue.
+        if (!Compatibility.hasFullScreenIntentPermission(requireContext())) {
+            androidx.appcompat.app.AlertDialog.Builder(requireContext())
+                .setTitle(R.string.dzcentrex_plein_ecran_titre)
+                .setMessage(R.string.dzcentrex_plein_ecran_message)
+                .setCancelable(false)
+                .setPositiveButton(R.string.dzcentrex_ouvrir_reglages) { _, _ ->
+                    Compatibility.requestFullScreenIntentPermission(requireContext())
+                    leave()
+                }
+                .setNegativeButton(R.string.dzcentrex_plus_tard) { _, _ -> leave() }
+                .show()
+            return@registerForActivityResult
+        }
         leave()
     }
 
@@ -127,12 +142,7 @@ class PermissionsFragment : GenericFragment() {
             telecomManagerPermissionLauncher.launch(Manifest.permission.MANAGE_OWN_CALLS)
         }
 
-        if (!Compatibility.hasFullScreenIntentPermission(requireContext())) {
-            Log.w(
-                "$TAG Android 14 or newer detected & full screen intent permission hasn't been granted!"
-            )
-            Compatibility.requestFullScreenIntentPermission(requireContext())
-        }
+        // DzCentrex : les appels en plein écran sont demandés après les autres autorisations (bouton « Tout autoriser »).
     }
 
     override fun onResume() {

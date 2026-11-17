@@ -91,11 +91,24 @@ object AnnuaireDz {
         for (f in liste.friends) {
             liste.removeFriend(f)
         }
-        val n = if (vcards.isBlank()) 0 else liste.importFriendsFromVcard4Buffer(vcards)
-        for (f in liste.friends) {
-            f.edit()
-            f.isSubscribesEnabled = true
-            f.done()
+        // Lecture des vCards à la main (FN, IMPP) : l'import vCard de Linphone ne donnait aucun collègue (test5, test6).
+        var n = 0
+        for (carte in vcards.split("BEGIN:VCARD").drop(1)) {
+            val lignes = carte.lines().map { it.trim() }
+            val nom = lignes.firstOrNull { it.startsWith("FN:") }?.removePrefix("FN:")
+                ?.replace("\\,", ",")?.replace("\\;", ";")?.replace("\\\\", "\\")
+            val sip = lignes.firstOrNull { it.startsWith("IMPP:") }?.removePrefix("IMPP:") ?: continue
+            val adresse = core.interpretUrl(sip, false) ?: continue
+            val ami = core.createFriend()
+            ami.edit()
+            ami.name = nom ?: adresse.username
+            ami.address = adresse
+            ami.isSubscribesEnabled = true
+            ami.incSubscribePolicy = org.linphone.core.SubscribePolicy.SPDeny
+            ami.starred = true
+            ami.refKey = "dz-${adresse.username}"
+            ami.done()
+            if (liste.addFriend(ami) == FriendList.Status.OK) n++
         }
         liste.isSubscriptionsEnabled = true
         liste.updateSubscriptions()

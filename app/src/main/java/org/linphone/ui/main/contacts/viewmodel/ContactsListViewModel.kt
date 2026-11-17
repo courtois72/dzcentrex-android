@@ -239,14 +239,18 @@ class ContactsListViewModel
         }
     }
 
-    // Collègue : dans la liste de l'annuaire DzCentrex (AnnuaireDz), ou une adresse SIP sur le domaine du compte.
+    // Collègue : dans la liste de l'annuaire DzCentrex (AnnuaireDz). Les adresses de notre domaine hors annuaire
+    // (son propre compte, historique d'appels) ne sont ni des collègues ni des contacts du téléphone : masquées.
     @WorkerThread
-    private fun estCollegue(result: SearchResult): Boolean {
-        val friend = result.friend
-        if (friend?.friendList?.displayName == org.linphone.contacts.AnnuaireDz.NOM_LISTE) return true
+    private fun estCollegue(result: SearchResult): Boolean =
+        result.friend?.friendList?.displayName == org.linphone.contacts.AnnuaireDz.NOM_LISTE
+
+    @WorkerThread
+    private fun aMasquer(result: SearchResult): Boolean {
+        if (estCollegue(result)) return false
         val domaine = coreContext.core.defaultAccount?.params?.domain ?: return false
-        if (friend != null) return friend.addresses.any { it.domain == domaine }
-        return result.address?.domain == domaine
+        val friend = result.friend ?: return result.address?.domain == domaine
+        return friend.phoneNumbers.isEmpty() && friend.addresses.isNotEmpty() && friend.addresses.all { it.domain == domaine }
     }
 
     @UiThread
@@ -377,7 +381,7 @@ class ContactsListViewModel
         val hideEmptyContacts = corePreferences.hideContactsWithoutPhoneNumberOrSipAddress
 
         for (result in results) {
-            if (estCollegue(result) != entreprise) continue
+            if (aMasquer(result) || estCollegue(result) != entreprise) continue
             val friend = result.friend
             if (friend != null) {
                 if (hideEmptyContacts && friend.addresses.isEmpty() && friend.phoneNumbers.isEmpty()) {
