@@ -281,6 +281,8 @@ class CoreContext
         ) {
             Log.i("$TAG Configuring state changed [$status], message is [$message]")
             if (status == ConfiguringState.Successful) {
+                // DzCentrex : nouveau QR scanné, annuaire du nouveau poste.
+                org.linphone.contacts.AnnuaireDz.charger(core)
                 val accounts = core.accountList
                 if (core.defaultAccount == null && accounts.isNotEmpty()) {
                     val firstAccount = accounts.firstOrNull()
@@ -714,6 +716,8 @@ class CoreContext
     @WorkerThread
     fun onCoreStarted() {
         Log.i("$TAG Core started, updating configuration if required")
+        // DzCentrex : annuaire des collègues (onglet Entreprise), rechargé à chaque démarrage.
+        org.linphone.contacts.AnnuaireDz.charger(core)
         core.videoCodecPriorityPolicy = CodecPriorityPolicy.Auto
 
         // Set in the Core the list of directories from which it is allowed to delete a file related to a chat message

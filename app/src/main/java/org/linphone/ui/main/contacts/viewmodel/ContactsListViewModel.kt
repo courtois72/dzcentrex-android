@@ -239,11 +239,12 @@ class ContactsListViewModel
         }
     }
 
-    // Collègue : une adresse SIP sur le domaine du compte (annuaire du serveur, contacts-vcard-list).
+    // Collègue : dans la liste de l'annuaire DzCentrex (AnnuaireDz), ou une adresse SIP sur le domaine du compte.
     @WorkerThread
     private fun estCollegue(result: SearchResult): Boolean {
-        val domaine = coreContext.core.defaultAccount?.params?.domain ?: return false
         val friend = result.friend
+        if (friend?.friendList?.displayName == org.linphone.contacts.AnnuaireDz.NOM_LISTE) return true
+        val domaine = coreContext.core.defaultAccount?.params?.domain ?: return false
         if (friend != null) return friend.addresses.any { it.domain == domaine }
         return result.address?.domain == domaine
     }
