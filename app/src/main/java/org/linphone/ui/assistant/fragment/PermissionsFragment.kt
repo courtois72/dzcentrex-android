@@ -74,15 +74,15 @@ class PermissionsFragment : GenericFragment() {
                 "$TAG Not all permissions were granted, leaving anyway, they will be asked again later..."
             )
         }
-        // DzCentrex : dans la même suite que micro, contacts et caméra, les appels en plein écran (Android 14+ :
-        // sans eux, le téléphone sonne écran éteint). Page des réglages Android, puis on continue.
-        if (!Compatibility.hasFullScreenIntentPermission(requireContext())) {
+        // DzCentrex : dans la même suite que micro, contacts et caméra, ce qu'il faut pour recevoir les appels appli
+        // fermée : appels en plein écran (Android 14+), batterie sans restriction, démarrage automatique (Xiaomi).
+        if (!org.linphone.dzcentrex.ReglagesTelephone.toutEstAutorise(requireActivity())) {
             androidx.appcompat.app.AlertDialog.Builder(requireContext())
-                .setTitle(R.string.dzcentrex_plein_ecran_titre)
-                .setMessage(R.string.dzcentrex_plein_ecran_message)
+                .setTitle(R.string.dzcentrex_appels_titre)
+                .setMessage(R.string.dzcentrex_appels_message)
                 .setCancelable(false)
                 .setPositiveButton(R.string.dzcentrex_ouvrir_reglages) { _, _ ->
-                    Compatibility.requestFullScreenIntentPermission(requireContext())
+                    org.linphone.dzcentrex.ReglagesTelephone.demanderAuDemarrage(requireActivity())
                     leave()
                 }
                 .setNegativeButton(R.string.dzcentrex_plus_tard) { _, _ -> leave() }

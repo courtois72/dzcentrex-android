@@ -60,6 +60,31 @@ object ReglagesTelephone {
         }
     }
 
+    // Premier lancement (écran des autorisations, après micro, contacts et caméra) : pages des réglages ouvertes l'une
+    // sur l'autre, la dernière ouverte apparaît en premier : batterie (un clic « Autoriser »), puis plein écran, puis
+    // démarrage automatique (Xiaomi). L'utilisateur revient en arrière de l'une à l'autre.
+    fun demanderAuDemarrage(activity: Activity) {
+        if (estXiaomi() && !prefs(activity).getBoolean(CLE_XIAOMI, false)) {
+            prefs(activity).edit().putBoolean(CLE_XIAOMI, true).apply()
+            ouvrirDemarrageXiaomi(activity)
+        }
+        if (!Compatibility.hasFullScreenIntentPermission(activity)) {
+            Compatibility.requestFullScreenIntentPermission(activity)
+        }
+        val pm = activity.getSystemService(Context.POWER_SERVICE) as PowerManager
+        if (!pm.isIgnoringBatteryOptimizations(activity.packageName)) {
+            dejaDemande = true
+            ouvrirBatterie(activity)
+        }
+    }
+
+    fun toutEstAutorise(activity: Activity): Boolean {
+        val pm = activity.getSystemService(Context.POWER_SERVICE) as PowerManager
+        return Compatibility.hasFullScreenIntentPermission(activity) &&
+            pm.isIgnoringBatteryOptimizations(activity.packageName) &&
+            (!estXiaomi() || prefs(activity).getBoolean(CLE_XIAOMI, false))
+    }
+
     private fun dialogue(activity: Activity, titre: Int, message: Int, action: () -> Unit) {
         dialogueOuvert = true
         AlertDialog.Builder(activity)

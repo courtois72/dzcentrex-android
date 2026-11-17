@@ -15,6 +15,8 @@
     <string name="dzcentrex_demarrage_image">Choose an image</string>
     <string name="dzcentrex_demarrage_ou_trouver">The QR code is in your user area or is given by your administrator. You can also choose a screenshot or an image received by e-mail.</string>
     <string name="dzcentrex_qr_image_illisible">No QR code found in this image</string>
+    <string name="dzcentrex_appels_titre">Receive calls at any time</string>
+    <string name="dzcentrex_appels_message">To ring even when the app is closed, the next screens will ask you to: allow battery use without restriction (tap \"Allow\"), allow full screen notifications, and on some phones enable automatic start. After each screen, come back with the back button.</string>
     <string name="dz_contacts_entreprise">Company</string>
     <string name="dz_contacts_telephone">Phone</string>
 </resources>
