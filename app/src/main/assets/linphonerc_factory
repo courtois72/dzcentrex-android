@@ -6,6 +6,8 @@
 
 [net]
 mtu=1300
+# DzCentrex : état des collègues de l'annuaire (abonnements SIP presence vers Asterisk, indications etat-<client>).
+friendlist_subscription_enabled=1
 force_ice_disablement=0
 
 [rtp]

@@ -9,4 +9,6 @@
     <color name="dz_vert_500">#5BB85D</color>
     <color name="dz_vert_500_night">#6CC46E</color>
     <color name="dz_degrade_vert">#1F7A6A</color>
+    <!-- Texte DZ centrex de l'écran de démarrage (éclairci en mode sombre, values-night) -->
+    <color name="dz_marque">#1D3A6B</color>
 </resources>

@@ -71,10 +71,50 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
+                    <!-- DzCentrex : onglets Entreprise (collègues, avec leur état) et Téléphone (carnet du téléphone). -->
+                    <LinearLayout
+                        android:id="@+id/dz_onglets"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginTop="8dp"
+                        android:orientation="horizontal">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            style="@style/default_text_style_700"
+                            android:id="@+id/dz_onglet_entreprise"
+                            android:onClick="@{() -> viewModel.choisirOnglet(true)}"
+                            android:layout_width="0dp"
+                            android:layout_height="48dp"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@string/dz_contacts_entreprise"
+                            android:textSize="15sp"
+                            android:selected="@{viewModel.ongletEntreprise}"
+                            android:textColor="@color/dz_onglet_texte"
+                            android:background="@drawable/dz_onglet" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            style="@style/default_text_style_700"
+                            android:id="@+id/dz_onglet_telephone"
+                            android:onClick="@{() -> viewModel.choisirOnglet(false)}"
+                            android:layout_width="0dp"
+                            android:layout_height="48dp"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@string/dz_contacts_telephone"
+                            android:textSize="15sp"
+                            android:selected="@{!viewModel.ongletEntreprise}"
+                            android:textColor="@color/dz_onglet_texte"
+                            android:background="@drawable/dz_onglet" />
+
+                    </LinearLayout>
+
                     <androidx.appcompat.widget.AppCompatTextView
                         style="@style/section_header_style"
                         android:id="@+id/favourites_label"
-                        android:visibility="@{!viewModel.isListFiltered &amp;&amp; viewModel.favouritesList.size() > 0 ? View.VISIBLE : View.GONE}"
+                        android:visibility="@{!viewModel.ongletEntreprise &amp;&amp; !viewModel.isListFiltered &amp;&amp; viewModel.favouritesList.size() > 0 ? View.VISIBLE : View.GONE}"
                         onClickListener="@{() -> viewModel.toggleFavouritesVisibility()}"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -90,14 +130,14 @@
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/favourites_contacts_list"
-                        android:visibility="@{viewModel.showFavourites &amp;&amp; !viewModel.isListFiltered &amp;&amp; viewModel.favouritesList.size() > 0 ? View.VISIBLE : View.GONE}"
+                        android:visibility="@{!viewModel.ongletEntreprise &amp;&amp; viewModel.showFavourites &amp;&amp; !viewModel.isListFiltered &amp;&amp; viewModel.favouritesList.size() > 0 ? View.VISIBLE : View.GONE}"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         style="@style/section_header_style"
                         android:id="@+id/all_contacts_label"
-                        android:visibility="@{!viewModel.isListFiltered &amp;&amp; viewModel.favouritesList.size() > 0 ? View.VISIBLE : View.GONE}"
+                        android:visibility="@{!viewModel.ongletEntreprise &amp;&amp; !viewModel.isListFiltered &amp;&amp; viewModel.favouritesList.size() > 0 ? View.VISIBLE : View.GONE}"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="5dp"

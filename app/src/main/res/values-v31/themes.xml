@@ -4,7 +4,7 @@
         <item name="windowSplashScreenAnimatedIcon">@drawable/linphone_splashscreen</item>
         <item name="postSplashScreenTheme">@style/Theme.Linphone</item>
         <item name="android:windowSplashScreenBrandingImage">
-            @drawable/linphone_splashscreen_branding
+            @drawable/dzcentrex_splashscreen_branding
         </item>
     </style>
 </resources>

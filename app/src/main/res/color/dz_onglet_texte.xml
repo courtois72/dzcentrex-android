@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- DzCentrex : texte des onglets Entreprise / Téléphone des contacts (sélectionné : couleur principale). -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_selected="true" android:color="?attr/color_main1_500" />
+    <item android:color="?attr/color_main2_500" />
+</selector>

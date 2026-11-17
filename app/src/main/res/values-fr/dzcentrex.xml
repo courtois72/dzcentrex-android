@@ -15,4 +15,6 @@
     <string name="dzcentrex_demarrage_image">Choisir une image</string>
     <string name="dzcentrex_demarrage_ou_trouver">Le QR code se trouve dans votre espace utilisateur ou vous est remis par votre administrateur. Vous pouvez aussi choisir une capture d\'écran ou une image reçue par e-mail.</string>
     <string name="dzcentrex_qr_image_illisible">Aucun QR code trouvé dans cette image</string>
+    <string name="dz_contacts_entreprise">Entreprise</string>
+    <string name="dz_contacts_telephone">Téléphone</string>
 </resources>

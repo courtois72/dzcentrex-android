@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- DzCentrex : texte DZ centrex de l'écran de démarrage en mode sombre (bleu éclairci). -->
+<resources>
+    <color name="dz_marque">#7FA4DE</color>
+</resources>

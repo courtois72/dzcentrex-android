@@ -65,6 +65,12 @@ class ContactsListViewModel
 
     val areAllContactsDisplayed = MutableLiveData<Boolean>()
 
+    // DzCentrex : onglet Entreprise (collègues de l'annuaire, adresse SIP sur le domaine du compte) ou Téléphone (le reste).
+    val ongletEntreprise = MutableLiveData<Boolean>(true)
+
+    @Volatile
+    private var entreprise = true
+
     val searchInProgress = MutableLiveData<Boolean>()
 
     val isDefaultAccountLinphone = MutableLiveData<Boolean>()
@@ -224,6 +230,25 @@ class ContactsListViewModel
     }
 
     @UiThread
+    fun choisirOnglet(ongletEntreprise: Boolean) {
+        if (this.ongletEntreprise.value == ongletEntreprise) return
+        this.ongletEntreprise.value = ongletEntreprise
+        entreprise = ongletEntreprise
+        coreContext.postOnCoreThread {
+            applyFilter(currentFilter, domainFilter, filterChanged = true)
+        }
+    }
+
+    // Collègue : une adresse SIP sur le domaine du compte (annuaire du serveur, contacts-vcard-list).
+    @WorkerThread
+    private fun estCollegue(result: SearchResult): Boolean {
+        val domaine = coreContext.core.defaultAccount?.params?.domain ?: return false
+        val friend = result.friend
+        if (friend != null) return friend.addresses.any { it.domain == domaine }
+        return result.address?.domain == domaine
+    }
+
+    @UiThread
     fun toggleFavouritesVisibility() {
         val show = showFavourites.value == false
         showFavourites.value = show
@@ -351,6 +376,7 @@ class ContactsListViewModel
         val hideEmptyContacts = corePreferences.hideContactsWithoutPhoneNumberOrSipAddress
 
         for (result in results) {
+            if (estCollegue(result) != entreprise) continue
             val friend = result.friend
             if (friend != null) {
                 if (hideEmptyContacts && friend.addresses.isEmpty() && friend.phoneNumbers.isEmpty()) {
