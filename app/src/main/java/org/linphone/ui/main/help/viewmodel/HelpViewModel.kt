@@ -143,7 +143,8 @@ class HelpViewModel
 
     init {
         val currentVersion = BuildConfig.VERSION_NAME
-        version.value = currentVersion
+        // DzCentrex : numéro de la version de test d'abord.
+        version.value = "DzCentrex ${BuildConfig.DZ_VERSION} (Linphone $currentVersion)"
 
         val versionCode = BuildConfig.VERSION_CODE
         val appGitDescribe = AppUtils.getString(R.string.linphone_app_version)

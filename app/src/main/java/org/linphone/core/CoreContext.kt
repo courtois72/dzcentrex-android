@@ -930,6 +930,8 @@ class CoreContext
             if (corePreferences.keepServiceAlive && !keepAliveServiceStarted) {
                 startKeepAliveService()
             }
+            // DzCentrex : état des collègues redemandé après la veille.
+            org.linphone.contacts.AnnuaireDz.rafraichirAbonnements(core)
         }
     }
 

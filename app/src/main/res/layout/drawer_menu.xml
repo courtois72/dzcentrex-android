@@ -253,6 +253,20 @@
                 app:drawableTint="?attr/color_main2_500"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/dz_version" />
+
+            <!-- DzCentrex : version de test installée (BuildConfig.DZ_VERSION, DrawerMenuFragment). -->
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/settings_subtitle_style"
+                android:id="@+id/dz_version"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toTopOf="@id/separator_2" />
 
             <View

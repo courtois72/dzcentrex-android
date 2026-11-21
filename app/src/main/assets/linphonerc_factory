@@ -48,6 +48,9 @@ store_friends=0
 
 [app]
 record_aware=1
+# DzCentrex : pas de PUBLISH de sa présence (Asterisk ne s'en sert pas : l'état vient des appels). Le passage
+# en ligne / hors ligne à chaque premier plan / arrière-plan faisait tomber et reprendre les abonnements (106, test12).
+publish_presence=0
 
 [lime]
 lime_update_threshold=86400

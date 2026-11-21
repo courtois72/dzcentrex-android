@@ -23,6 +23,8 @@ Modifications par rapport à Linphone (voir l'historique Git) :
 - écran « Renvois » dans le menu (`org.linphone.dzcentrex.RenvoisFragment`) : ne pas déranger, renvois, messagerie vocale
   et horaires d'ouverture du poste, lus et enregistrés sur le serveur (`/prov/renvois`, compte SIP du poste) ;
 - pas de fenêtre « Authentification requise » (mot de passe) : le poste est configuré par QR seulement ;
+- numéro de la version de test (`BuildConfig.DZ_VERSION`) en bas du menu et dans Aide ; présence de l'appareil non publiée
+  (`publish_presence=0`) ; abonnements à l'état des collègues redemandés au retour dans l'appli ;
 - compilation par GitHub Actions (`.github/workflows/compiler.yml`).
 
 Le SDK Linphone n'est pas modifié (paquets publiés par Belledonne Communications).

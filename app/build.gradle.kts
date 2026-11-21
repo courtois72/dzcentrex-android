@@ -109,6 +109,8 @@ android {
         targetSdk = 37
         versionCode = 602010 // 6.02.010
         versionName = "6.2.10"
+        // DzCentrex : numéro de la version de test, affiché dans le menu et dans Aide (à changer à chaque compilation).
+        buildConfigField("String", "DZ_VERSION", "\"test13\"")
 
         manifestPlaceholders["appAuthRedirectScheme"] = packageName
 

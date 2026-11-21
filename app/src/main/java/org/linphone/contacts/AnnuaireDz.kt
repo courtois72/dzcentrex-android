@@ -81,6 +81,22 @@ object AnnuaireDz {
     private fun md5(s: String): String =
         MessageDigest.getInstance("MD5").digest(s.toByteArray()).joinToString("") { "%02x".format(it) }
 
+    private var dernierRafraichissement = 0L
+
+    // Retour dans l'appli : les abonnements à l'état des collègues (10 min) ont pu expirer pendant la veille sans être
+    // renouvelés, et les collègues restaient « hors ligne » (105, test12). On les redemande, au plus une fois par minute.
+    @WorkerThread
+    fun rafraichirAbonnements(core: Core) {
+        val liste = core.getFriendListByName(NOM_LISTE) ?: return
+        val maintenant = System.currentTimeMillis()
+        if (maintenant - dernierRafraichissement < 60000) return
+        dernierRafraichissement = maintenant
+        Log.i("$TAG Retour au premier plan : abonnements redemandés")
+        // updateSubscriptions() seul ne renvoie rien si aucun collègue n'a changé (voir AccountModel.setAsDefault).
+        liste.isSubscriptionsEnabled = false
+        liste.isSubscriptionsEnabled = true
+    }
+
     @WorkerThread
     private fun importer(core: Core, vcards: String, essai: Int = 1) {
         // La liste par défaut de Linphone doit exister avant la nôtre : sinon la nôtre le devient, et Linphone la vide en
@@ -115,6 +131,7 @@ object AnnuaireDz {
         }
         liste.isSubscriptionsEnabled = true
         liste.updateSubscriptions()
+        dernierRafraichissement = System.currentTimeMillis()
         Log.i("$TAG $n collègue(s) chargé(s)")
         coreContext.contactsManager.notifyContactsListChanged()
         // Filet de sécurité : si la liste a été vidée entre-temps, on la remplit à nouveau (deux fois au plus).

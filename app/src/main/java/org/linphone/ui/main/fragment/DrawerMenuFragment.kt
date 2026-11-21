@@ -70,6 +70,7 @@ class DrawerMenuFragment : GenericMainFragment() {
 
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
+        binding.dzVersion.text = "DzCentrex ${org.linphone.BuildConfig.DZ_VERSION}"
         observeToastEvents(viewModel)
 
         binding.setSettingsClickedListener {
