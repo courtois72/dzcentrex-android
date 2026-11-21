@@ -19,4 +19,26 @@
     <string name="dzcentrex_appels_message">Pour sonner même appli fermée, les écrans suivants vont vous demander : d\u2019utiliser la batterie sans restriction (touchez « Autoriser »), d\u2019autoriser les notifications en plein écran, et sur certains téléphones d\u2019activer le démarrage automatique. Après chaque écran, revenez avec la touche retour.</string>
     <string name="dz_contacts_entreprise">Entreprise</string>
     <string name="dz_contacts_telephone">Téléphone</string>
+    <string name="dz_renvois_titre">Renvois</string>
+    <string name="dz_renvois_chargement">Chargement…</string>
+    <string name="dz_renvois_pas_configure">Ce téléphone n\'est pas encore configuré : scannez le QR code de votre poste.</string>
+    <string name="dz_renvois_erreur_lecture">Impossible de lire vos renvois. Vérifiez la connexion et rouvrez cet écran.</string>
+    <string name="dz_renvois_ne_pas_deranger">Ne pas déranger</string>
+    <string name="dz_renvois_toujours">Renvoyer tous les appels vers</string>
+    <string name="dz_renvois_occupe">Si occupé ou en ne pas déranger</string>
+    <string name="dz_renvois_non_reponse">Si pas de réponse ou téléphone déconnecté</string>
+    <string name="dz_renvois_numero">Numéro ou poste (vide : aucun)</string>
+    <string name="dz_renvois_choisir_collegue">Choisir un collègue</string>
+    <string name="dz_renvois_aucun_collegue">Aucun collègue dans l\'annuaire</string>
+    <string name="dz_renvois_delai">Secondes de sonnerie avant le renvoi</string>
+    <string name="dz_renvois_delai_invalide">Durée de sonnerie : entre 5 et 60 secondes</string>
+    <string name="dz_renvois_messagerie">Messagerie vocale</string>
+    <string name="dz_renvois_messagerie_explication">Si vous ne répondez pas, l\'appelant peut laisser un message.</string>
+    <string name="dz_renvois_horaires">Horaires d\'ouverture</string>
+    <string name="dz_renvois_horaires_explication">Décoché : vos lignes vous font sonner même quand l\'entreprise est fermée.</string>
+    <string name="dz_renvois_enregistrer">Enregistrer</string>
+    <string name="dz_renvois_enregistre">Enregistré, appliqué dès le prochain appel</string>
+    <string name="dz_renvois_numero_refuse">Numéro refusé : vérifiez les numéros saisis (pas de numéro d\'urgence)</string>
+    <string name="dz_renvois_erreur_enregistrement">Enregistrement impossible. Vérifiez la connexion et réessayez.</string>
+    <string name="dz_renvois_codes">Les mêmes réglages sont dans votre espace utilisateur et avec les codes du téléphone (*21, *67, *61, *78).</string>
 </resources>

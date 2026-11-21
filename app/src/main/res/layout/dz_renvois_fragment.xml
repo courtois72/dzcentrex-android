@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- DzCentrex : écran Renvois du menu (org.linphone.dzcentrex.RenvoisFragment), ajouté à Linphone Android (GPLv3). -->
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <import type="android.view.View" />
+        <variable
+            name="backClickListener"
+            type="View.OnClickListener" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?attr/color_background_contrast_in_dark_mode">
+
+        <ImageView
+            style="@style/icon_top_bar_button_style"
+            android:id="@+id/back"
+            android:onClick="@{backClickListener}"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:src="@drawable/caret_left"
+            android:contentDescription="@string/content_description_go_back_icon"
+            app:tint="?attr/color_main1_500"
+            app:layout_constraintBottom_toBottomOf="@id/title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/title" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/main_page_title_style"
+            android:id="@+id/title"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/top_bar_height"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:text="@string/dz_renvois_titre"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/back"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <ScrollView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:fillViewport="true"
+            android:background="?attr/color_grey_100"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/back"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:paddingBottom="@dimen/screen_bottom_margin">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/settings_subtitle_style"
+                    android:id="@+id/etat"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:text="@string/dz_renvois_chargement" />
+
+                <LinearLayout
+                    android:id="@+id/formulaire"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp"
+                    android:visibility="gone"
+                    android:background="@drawable/shape_squircle_white_background">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            style="@style/settings_title_style"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/dz_renvois_ne_pas_deranger" />
+
+                        <com.google.android.material.materialswitch.MaterialSwitch
+                            style="@style/material_switch_style"
+                            android:id="@+id/ne_pas_deranger"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/settings_title_style"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="@string/dz_renvois_toujours" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            style="@style/default_text_style"
+                            android:id="@+id/toujours"
+                            android:layout_width="0dp"
+                            android:layout_height="50dp"
+                            android:layout_weight="1"
+                            android:paddingStart="20dp"
+                            android:paddingEnd="20dp"
+                            android:textSize="14sp"
+                            android:textColor="?attr/color_main2_600"
+                            android:hint="@string/dz_renvois_numero"
+                            android:maxLines="1"
+                            android:background="@drawable/edit_text_background"
+                            android:inputType="phone" />
+
+                        <ImageView
+                            android:id="@+id/toujours_collegue"
+                            android:layout_width="44dp"
+                            android:layout_height="44dp"
+                            android:layout_marginStart="8dp"
+                            android:padding="10dp"
+                            android:src="@drawable/address_book"
+                            android:background="@drawable/squircle_transparent_button_background"
+                            android:contentDescription="@string/dz_renvois_choisir_collegue"
+                            app:tint="?attr/color_main1_500" />
+                    </LinearLayout>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/settings_title_style"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="@string/dz_renvois_occupe" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            style="@style/default_text_style"
+                            android:id="@+id/occupe"
+                            android:layout_width="0dp"
+                            android:layout_height="50dp"
+                            android:layout_weight="1"
+                            android:paddingStart="20dp"
+                            android:paddingEnd="20dp"
+                            android:textSize="14sp"
+                            android:textColor="?attr/color_main2_600"
+                            android:hint="@string/dz_renvois_numero"
+                            android:maxLines="1"
+                            android:background="@drawable/edit_text_background"
+                            android:inputType="phone" />
+
+                        <ImageView
+                            android:id="@+id/occupe_collegue"
+                            android:layout_width="44dp"
+                            android:layout_height="44dp"
+                            android:layout_marginStart="8dp"
+                            android:padding="10dp"
+                            android:src="@drawable/address_book"
+                            android:background="@drawable/squircle_transparent_button_background"
+                            android:contentDescription="@string/dz_renvois_choisir_collegue"
+                            app:tint="?attr/color_main1_500" />
+                    </LinearLayout>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/settings_title_style"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="@string/dz_renvois_non_reponse" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            style="@style/default_text_style"
+                            android:id="@+id/non_reponse"
+                            android:layout_width="0dp"
+                            android:layout_height="50dp"
+                            android:layout_weight="1"
+                            android:paddingStart="20dp"
+                            android:paddingEnd="20dp"
+                            android:textSize="14sp"
+                            android:textColor="?attr/color_main2_600"
+                            android:hint="@string/dz_renvois_numero"
+                            android:maxLines="1"
+                            android:background="@drawable/edit_text_background"
+                            android:inputType="phone" />
+
+                        <ImageView
+                            android:id="@+id/non_reponse_collegue"
+                            android:layout_width="44dp"
+                            android:layout_height="44dp"
+                            android:layout_marginStart="8dp"
+                            android:padding="10dp"
+                            android:src="@drawable/address_book"
+                            android:background="@drawable/squircle_transparent_button_background"
+                            android:contentDescription="@string/dz_renvois_choisir_collegue"
+                            app:tint="?attr/color_main1_500" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            style="@style/settings_subtitle_style"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/dz_renvois_delai" />
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            style="@style/default_text_style"
+                            android:id="@+id/delai"
+                            android:layout_width="80dp"
+                            android:layout_height="50dp"
+                            android:gravity="center"
+                            android:textSize="14sp"
+                            android:textColor="?attr/color_main2_600"
+                            android:maxLines="1"
+                            android:maxLength="2"
+                            android:background="@drawable/edit_text_background"
+                            android:inputType="number" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ligne_messagerie"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:visibility="gone">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                style="@style/settings_title_style"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/dz_renvois_messagerie" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                style="@style/settings_subtitle_style"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/dz_renvois_messagerie_explication" />
+                        </LinearLayout>
+
+                        <com.google.android.material.materialswitch.MaterialSwitch
+                            style="@style/material_switch_style"
+                            android:id="@+id/messagerie"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                style="@style/settings_title_style"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/dz_renvois_horaires" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                style="@style/settings_subtitle_style"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/dz_renvois_horaires_explication" />
+                        </LinearLayout>
+
+                        <com.google.android.material.materialswitch.MaterialSwitch
+                            style="@style/material_switch_style"
+                            android:id="@+id/horaires"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/primary_button_label_style"
+                    android:id="@+id/enregistrer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:gravity="center"
+                    android:visibility="gone"
+                    android:text="@string/dz_renvois_enregistrer" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/settings_subtitle_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/dz_renvois_codes" />
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

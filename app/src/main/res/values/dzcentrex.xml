@@ -19,4 +19,26 @@
     <string name="dzcentrex_appels_message">To ring even when the app is closed, the next screens will ask you to: allow battery use without restriction (tap \"Allow\"), allow full screen notifications, and on some phones enable automatic start. After each screen, come back with the back button.</string>
     <string name="dz_contacts_entreprise">Company</string>
     <string name="dz_contacts_telephone">Phone</string>
+    <string name="dz_renvois_titre">Call forwarding</string>
+    <string name="dz_renvois_chargement">Loading…</string>
+    <string name="dz_renvois_pas_configure">This phone is not configured yet: scan the QR code of your extension.</string>
+    <string name="dz_renvois_erreur_lecture">Unable to read your forwarding settings. Check the connection and open this screen again.</string>
+    <string name="dz_renvois_ne_pas_deranger">Do not disturb</string>
+    <string name="dz_renvois_toujours">Forward all calls to</string>
+    <string name="dz_renvois_occupe">If busy or in do not disturb</string>
+    <string name="dz_renvois_non_reponse">If no answer or phone offline</string>
+    <string name="dz_renvois_numero">Number or extension (empty: none)</string>
+    <string name="dz_renvois_choisir_collegue">Choose a colleague</string>
+    <string name="dz_renvois_aucun_collegue">No colleague in the directory</string>
+    <string name="dz_renvois_delai">Seconds of ringing before forwarding</string>
+    <string name="dz_renvois_delai_invalide">Ringing time: between 5 and 60 seconds</string>
+    <string name="dz_renvois_messagerie">Voicemail</string>
+    <string name="dz_renvois_messagerie_explication">If you do not answer, the caller can leave a message.</string>
+    <string name="dz_renvois_horaires">Opening hours</string>
+    <string name="dz_renvois_horaires_explication">Unchecked: your lines make you ring even when the company is closed.</string>
+    <string name="dz_renvois_enregistrer">Save</string>
+    <string name="dz_renvois_enregistre">Saved, applied from the next call</string>
+    <string name="dz_renvois_numero_refuse">Number refused: check the numbers entered (no emergency numbers)</string>
+    <string name="dz_renvois_erreur_enregistrement">Unable to save. Check the connection and try again.</string>
+    <string name="dz_renvois_codes">The same settings are available in your user area and with the phone codes (*21, *67, *61, *78).</string>
 </resources>

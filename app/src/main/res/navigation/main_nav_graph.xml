@@ -179,6 +179,22 @@
             app:launchSingleTop="true" />
     </fragment>
 
+    <!-- DzCentrex : écran Renvois du menu. -->
+    <fragment
+        android:id="@+id/dzRenvoisFragment"
+        android:name="org.linphone.dzcentrex.RenvoisFragment"
+        android:label="RenvoisFragment"
+        tools:layout="@layout/dz_renvois_fragment" />
+
+    <action
+        android:id="@+id/action_global_dzRenvoisFragment"
+        app:destination="@id/dzRenvoisFragment"
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/slide_out_left"
+        app:popEnterAnim="@anim/slide_in_left"
+        app:popExitAnim="@anim/slide_out_right"
+        app:launchSingleTop="true"/>
+
     <action
         android:id="@+id/action_global_helpFragment"
         app:destination="@id/helpFragment"

@@ -525,12 +525,12 @@ class CoreContext
                         return
                     }
 
-                    val identity = "${authInfo.username}@${authInfo.domain}"
-                    Log.i(
-                        "$TAG Authentication requested method is HttpDigest, showing dialog asking user for password for identity [$identity]"
+                    // DzCentrex : pas de fenêtre « Authentification requise ». Le poste est configuré par QR et
+                    // l'utilisateur ne connaît pas son mot de passe ; elle s'ouvrait au lancement sans vrai refus du
+                    // serveur (test11). En cas de vrai problème, le compte s'affiche déconnecté : rescanner le QR.
+                    Log.w(
+                        "$TAG Authentication requested method is HttpDigest for [${authInfo.username}@${authInfo.domain}], no dialog (DzCentrex)"
                     )
-                    digestAuthInfoPendingPasswordUpdate = authInfo
-                    digestAuthenticationRequestedEvent.postValue(Event(identity))
                 }
                 AuthMethod.Tls -> {
                     Log.w("$TAG Authentication requested method is TLS, not doing anything...")

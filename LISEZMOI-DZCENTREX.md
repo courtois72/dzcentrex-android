@@ -20,6 +20,9 @@ Modifications par rapport à Linphone (voir l'historique Git) :
   s'appliquent aussi après une mise à jour ;
 - au lancement, demande des notifications plein écran (Android 14+, écran allumé à la sonnerie), de l'exemption de l'optimisation de la batterie et, sur Xiaomi/Redmi/Poco, du
   démarrage automatique (`org.linphone.dzcentrex.ReglagesTelephone`) ;
+- écran « Renvois » dans le menu (`org.linphone.dzcentrex.RenvoisFragment`) : ne pas déranger, renvois, messagerie vocale
+  et horaires d'ouverture du poste, lus et enregistrés sur le serveur (`/prov/renvois`, compte SIP du poste) ;
+- pas de fenêtre « Authentification requise » (mot de passe) : le poste est configuré par QR seulement ;
 - compilation par GitHub Actions (`.github/workflows/compiler.yml`).
 
 Le SDK Linphone n'est pas modifié (paquets publiés par Belledonne Communications).

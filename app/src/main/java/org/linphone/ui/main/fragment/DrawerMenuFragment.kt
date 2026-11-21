@@ -78,6 +78,12 @@ class DrawerMenuFragment : GenericMainFragment() {
             (requireActivity() as MainActivity).closeDrawerMenu()
         }
 
+        binding.setRenvoisClickedListener {
+            val navController = (requireActivity() as MainActivity).findNavController()
+            navController.navigate(R.id.action_global_dzRenvoisFragment)
+            (requireActivity() as MainActivity).closeDrawerMenu()
+        }
+
         binding.setRecordingsClickListener {
             val navController = (requireActivity() as MainActivity).findNavController()
             navController.navigate(R.id.action_global_recordingsListFragment)
