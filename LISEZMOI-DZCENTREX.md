@@ -25,6 +25,7 @@ Modifications par rapport à Linphone (voir l'historique Git) :
 - pas de fenêtre « Authentification requise » (mot de passe) : le poste est configuré par QR seulement ;
 - numéro de la version de test (`BuildConfig.DZ_VERSION`) en bas du menu et dans Aide ; présence de l'appareil non publiée
   (`publish_presence=0`) ; abonnements à l'état des collègues redemandés au retour dans l'appli ;
+- un seul abonnement à l'état des collègues : liste d'état `etat-<client>` du serveur (RLS) ;
 - compilation par GitHub Actions (`.github/workflows/compiler.yml`).
 
 Le SDK Linphone n'est pas modifié (paquets publiés par Belledonne Communications).

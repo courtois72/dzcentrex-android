@@ -3,7 +3,7 @@
  *
  * L'adresse est celle donnée par le QR ([misc] contacts-vcard-list, ex. https://…/prov/annuaire) ; le serveur
  * demande une authentification Digest avec le compte SIP du poste (HA1 du QR). Les vCards sont rangées dans la
- * liste « DzCentrex » (onglet Entreprise des contacts), avec abonnement à l'état de chaque collègue.
+ * liste « DzCentrex » (onglet Entreprise des contacts), abonnée à l'état de tous les collègues en une fois (liste etat-<client>).
  *
  * Code ajouté à Linphone Android (GPLv3).
  */
@@ -106,6 +106,16 @@ object AnnuaireDz {
             it.displayName = NOM_LISTE
             it.type = FriendList.Type.Default
             core.addFriendList(it)
+        }
+        // Un seul abonnement pour tous les collègues : liste d'état etat-<client> du serveur (RLS, generer-dialplan.sh),
+        // au lieu d'un par collègue (rafales : le serveur bloquait l'IP de tout un site, 21/11/2026). Abonnements
+        // coupés pendant l'import, repris une fois la liste remplie.
+        liste.isSubscriptionsEnabled = false
+        val compte = core.authInfoList.firstOrNull { !it.ha1.isNullOrEmpty() }?.username
+        val domaine = core.defaultAccount?.params?.identityAddress?.domain
+        if (compte != null && compte.contains("-") && domaine != null) {
+            liste.rlsAddress = core.interpretUrl("sip:etat-${compte.substringBeforeLast("-")}@$domaine", false)
+            Log.i("$TAG Liste d'état : ${liste.rlsAddress?.asStringUriOnly()}")
         }
         for (f in liste.friends) {
             liste.removeFriend(f)
