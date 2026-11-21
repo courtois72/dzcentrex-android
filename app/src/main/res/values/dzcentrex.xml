@@ -41,4 +41,9 @@
     <string name="dz_renvois_numero_refuse">Number refused: check the numbers entered (no emergency numbers)</string>
     <string name="dz_renvois_erreur_enregistrement">Unable to save. Check the connection and try again.</string>
     <string name="dz_renvois_codes">The same settings are available in your user area and with the phone codes (*21, *67, *61, *78).</string>
+    <string name="dz_etat_disponible">Available</string>
+    <string name="dz_etat_sonne">Ringing</string>
+    <string name="dz_etat_en_appel">On a call</string>
+    <string name="dz_etat_ne_pas_deranger">Do not disturb</string>
+    <string name="dz_etat_hors_ligne">Offline</string>
 </resources>

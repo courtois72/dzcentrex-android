@@ -24,8 +24,9 @@ Modifications par rapport à Linphone (voir l'historique Git) :
   et horaires d'ouverture du poste, lus et enregistrés sur le serveur (`/prov/renvois`, compte SIP du poste) ;
 - pas de fenêtre « Authentification requise » (mot de passe) : le poste est configuré par QR seulement ;
 - numéro de la version de test (`BuildConfig.DZ_VERSION`) en bas du menu et dans Aide ; présence de l'appareil non publiée
-  (`publish_presence=0`) ; abonnements à l'état des collègues redemandés au retour dans l'appli ;
-- un seul abonnement à l'état des collègues : liste d'état `etat-<client>` du serveur (RLS) ;
+  (`publish_presence=0`) ;
+- état des collègues reçu du serveur tant que l'appli est ouverte (`/prov/etat`, `org.linphone.contacts.EtatDz`) :
+  aucun abonnement SIP à leur présence (`friendlist_subscription_enabled=0`) ;
 - compilation par GitHub Actions (`.github/workflows/compiler.yml`).
 
 Le SDK Linphone n'est pas modifié (paquets publiés par Belledonne Communications).

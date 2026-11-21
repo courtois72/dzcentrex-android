@@ -20,12 +20,13 @@ object RenvoisDz {
 
     class ErreurServeur(val code: Int, message: String) : Exception(message)
 
-    /** Adresse et compte du poste, lus dans la configuration du QR ; null si le poste n'est pas configuré. */
+    /** Adresse (/prov/<chemin>, à côté de l'annuaire) et compte du poste, lus dans la configuration du QR ; null si le
+     * poste n'est pas configuré. */
     @WorkerThread
-    fun compte(core: Core): Compte? {
+    fun compte(core: Core, chemin: String = "renvois"): Compte? {
         val annuaire = core.config.getString("misc", "contacts-vcard-list", null) ?: return null
         val auth = core.authInfoList.firstOrNull { !it.ha1.isNullOrEmpty() } ?: return null
-        val adresse = annuaire.substringBeforeLast("/") + "/renvois"
+        val adresse = annuaire.substringBeforeLast("/") + "/" + chemin
         return Compte(adresse, auth.username ?: return null, auth.ha1.orEmpty())
     }
 
@@ -33,10 +34,10 @@ object RenvoisDz {
 
     fun enregistrer(c: Compte, renvois: JSONObject): JSONObject = JSONObject(requete(c, "PUT", renvois.toString()))
 
-    private fun ouvrir(url: URL, methode: String, corps: String?, autorisation: String?): HttpURLConnection {
+    private fun ouvrir(url: URL, methode: String, corps: String?, autorisation: String?, lecture: Int): HttpURLConnection {
         val connexion = url.openConnection() as HttpURLConnection
         connexion.connectTimeout = 10000
-        connexion.readTimeout = 10000
+        connexion.readTimeout = lecture
         connexion.requestMethod = methode
         connexion.setRequestProperty("Accept", "application/json")
         if (autorisation != null) connexion.setRequestProperty("Authorization", autorisation)
@@ -48,9 +49,10 @@ object RenvoisDz {
         return connexion
     }
 
-    private fun requete(c: Compte, methode: String, corps: String?): String {
+    /** Connexion authentifiée (défi Digest, puis réponse avec le HA1 du poste), à lire par l'appelant. */
+    fun connecter(c: Compte, methode: String, corps: String?, lecture: Int = 10000): HttpURLConnection {
         val url = URL(c.adresse)
-        var connexion = ouvrir(url, methode, corps, null)
+        var connexion = ouvrir(url, methode, corps, null, lecture)
         if (connexion.responseCode == 401) {
             val defi = connexion.getHeaderField("WWW-Authenticate").orEmpty()
             connexion.disconnect()
@@ -63,9 +65,15 @@ object RenvoisDz {
             connexion = ouvrir(
                 url, methode, corps,
                 "Digest username=\"${c.utilisateur}\", realm=\"${p["realm"].orEmpty()}\", nonce=\"${p["nonce"].orEmpty()}\", " +
-                    "uri=\"$uri\", algorithm=MD5, qop=auth, nc=$nc, cnonce=\"$cnonce\", response=\"$reponse\""
+                    "uri=\"$uri\", algorithm=MD5, qop=auth, nc=$nc, cnonce=\"$cnonce\", response=\"$reponse\"",
+                lecture
             )
         }
+        return connexion
+    }
+
+    private fun requete(c: Compte, methode: String, corps: String?): String {
+        val connexion = connecter(c, methode, corps)
         val code = connexion.responseCode
         if (code != 200) {
             // Message du serveur (ex. 422 : numéro refusé) quand il y en a un.

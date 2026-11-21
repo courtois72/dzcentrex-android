@@ -919,6 +919,9 @@ class CoreContext
 
     @UiThread
     fun onForeground() {
+        // DzCentrex : état des collègues reçu du serveur tant que l'appli est ouverte.
+        org.linphone.contacts.EtatDz.premierPlan = true
+        postOnCoreThread { org.linphone.contacts.EtatDz.demarrer(core) }
         postOnCoreThread {
             // We can't rely on defaultAccount?.params?.isPublishEnabled
             // as it will be modified by the SDK when changing the presence status
@@ -930,13 +933,12 @@ class CoreContext
             if (corePreferences.keepServiceAlive && !keepAliveServiceStarted) {
                 startKeepAliveService()
             }
-            // DzCentrex : état des collègues redemandé après la veille.
-            org.linphone.contacts.AnnuaireDz.rafraichirAbonnements(core)
         }
     }
 
     @UiThread
     fun onBackground() {
+        org.linphone.contacts.EtatDz.arreter()
         postOnCoreThread {
             // We can't rely on defaultAccount?.params?.isPublishEnabled
             // as it will be modified by the SDK when changing the presence status

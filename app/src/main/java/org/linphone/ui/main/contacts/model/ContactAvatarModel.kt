@@ -76,11 +76,22 @@ class ContactAvatarModel
         }
     }
 
+    // DzCentrex : collègue de l'annuaire (liste DzCentrex) : état envoyé par le serveur (EtatDz), pas par SIP.
+    private val dzExtension: String? =
+        if (friend.friendList?.displayName == org.linphone.contacts.AnnuaireDz.NOM_LISTE) friend.address?.username else null
+
+    private val dzEcouteur: (String) -> Unit = { extension ->
+        if (extension == dzExtension) coreContext.postOnCoreThread { computePresence() }
+    }
+
     init {
         presenceStatus.postValue(ConsolidatedPresence.Offline)
 
         if (friend.addresses.isNotEmpty()) {
             friend.addListener(friendListener)
+        }
+        if (dzExtension != null) {
+            org.linphone.contacts.EtatDz.ecouter(dzEcouteur)
         }
 
         update(address)
@@ -114,6 +125,7 @@ class ContactAvatarModel
 
     @WorkerThread
     fun destroy() {
+        org.linphone.contacts.EtatDz.oublier(dzEcouteur)
         if (friend.addresses.isNotEmpty()) {
             friend.removeListener(friendListener)
         }
@@ -216,6 +228,21 @@ class ContactAvatarModel
 
     @WorkerThread
     private fun computePresence(address: Address? = null) {
+        if (dzExtension != null) {
+            val etat = org.linphone.contacts.EtatDz.etat(dzExtension)
+            presenceStatus.postValue(org.linphone.contacts.EtatDz.presence(dzExtension))
+            lastPresenceInfo.postValue(
+                when (etat) {
+                    "disponible" -> AppUtils.getString(R.string.dz_etat_disponible)
+                    "sonne" -> AppUtils.getString(R.string.dz_etat_sonne)
+                    "en_appel" -> AppUtils.getString(R.string.dz_etat_en_appel)
+                    "ne_pas_deranger" -> AppUtils.getString(R.string.dz_etat_ne_pas_deranger)
+                    "hors_ligne" -> AppUtils.getString(R.string.dz_etat_hors_ligne)
+                    else -> ""
+                }
+            )
+            return
+        }
         val presence = if (address == null) {
             friend.consolidatedPresence
         } else {

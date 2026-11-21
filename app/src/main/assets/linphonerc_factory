@@ -6,8 +6,9 @@
 
 [net]
 mtu=1300
-# DzCentrex : état des collègues de l'annuaire (abonnements SIP presence vers Asterisk, indications etat-<client>).
-friendlist_subscription_enabled=1
+# DzCentrex : pas d'abonnement SIP à l'état des collègues (rafales, plantage de la liste RLS) : l'appli le reçoit du
+# serveur (/prov/etat, org.linphone.contacts.EtatDz).
+friendlist_subscription_enabled=0
 force_ice_disablement=0
 
 [rtp]

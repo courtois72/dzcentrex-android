@@ -3,7 +3,7 @@
  *
  * L'adresse est celle donnée par le QR ([misc] contacts-vcard-list, ex. https://…/prov/annuaire) ; le serveur
  * demande une authentification Digest avec le compte SIP du poste (HA1 du QR). Les vCards sont rangées dans la
- * liste « DzCentrex » (onglet Entreprise des contacts), abonnée à l'état de tous les collègues en une fois (liste etat-<client>).
+ * liste « DzCentrex » (onglet Entreprise des contacts) ; leur état vient du serveur (EtatDz).
  *
  * Code ajouté à Linphone Android (GPLv3).
  */
@@ -81,22 +81,6 @@ object AnnuaireDz {
     private fun md5(s: String): String =
         MessageDigest.getInstance("MD5").digest(s.toByteArray()).joinToString("") { "%02x".format(it) }
 
-    private var dernierRafraichissement = 0L
-
-    // Retour dans l'appli : les abonnements à l'état des collègues (10 min) ont pu expirer pendant la veille sans être
-    // renouvelés, et les collègues restaient « hors ligne » (105, test12). On les redemande, au plus une fois par minute.
-    @WorkerThread
-    fun rafraichirAbonnements(core: Core) {
-        val liste = core.getFriendListByName(NOM_LISTE) ?: return
-        val maintenant = System.currentTimeMillis()
-        if (maintenant - dernierRafraichissement < 60000) return
-        dernierRafraichissement = maintenant
-        Log.i("$TAG Retour au premier plan : abonnements redemandés")
-        // updateSubscriptions() seul ne renvoie rien si aucun collègue n'a changé (voir AccountModel.setAsDefault).
-        liste.isSubscriptionsEnabled = false
-        liste.isSubscriptionsEnabled = true
-    }
-
     @WorkerThread
     private fun importer(core: Core, vcards: String, essai: Int = 1) {
         // La liste par défaut de Linphone doit exister avant la nôtre : sinon la nôtre le devient, et Linphone la vide en
@@ -107,16 +91,9 @@ object AnnuaireDz {
             it.type = FriendList.Type.Default
             core.addFriendList(it)
         }
-        // Un seul abonnement pour tous les collègues : liste d'état etat-<client> du serveur (RLS, generer-dialplan.sh),
-        // au lieu d'un par collègue (rafales : le serveur bloquait l'IP de tout un site, 21/11/2026). Abonnements
-        // coupés pendant l'import, repris une fois la liste remplie.
+        // Pas d'abonnement SIP à l'état des collègues : il vient du serveur par EtatDz (rafales d'abonnements, puis
+        // plantage de la liste d'état SIP en test14).
         liste.isSubscriptionsEnabled = false
-        val compte = core.authInfoList.firstOrNull { !it.ha1.isNullOrEmpty() }?.username
-        val domaine = core.defaultAccount?.params?.identityAddress?.domain
-        if (compte != null && compte.contains("-") && domaine != null) {
-            liste.rlsAddress = core.interpretUrl("sip:etat-${compte.substringBeforeLast("-")}@$domaine", false)
-            Log.i("$TAG Liste d'état : ${liste.rlsAddress?.asStringUriOnly()}")
-        }
         for (f in liste.friends) {
             liste.removeFriend(f)
         }
@@ -132,16 +109,14 @@ object AnnuaireDz {
             ami.edit()
             ami.name = nom ?: adresse.username
             ami.address = adresse
-            ami.isSubscribesEnabled = true
+            ami.isSubscribesEnabled = false
             ami.incSubscribePolicy = org.linphone.core.SubscribePolicy.SPDeny
             ami.starred = true
             ami.refKey = "dz-${adresse.username}"
             ami.done()
             if (liste.addFriend(ami) == FriendList.Status.OK) n++
         }
-        liste.isSubscriptionsEnabled = true
-        liste.updateSubscriptions()
-        dernierRafraichissement = System.currentTimeMillis()
+        EtatDz.demarrer(core)
         Log.i("$TAG $n collègue(s) chargé(s)")
         coreContext.contactsManager.notifyContactsListChanged()
         // Filet de sécurité : si la liste a été vidée entre-temps, on la remplit à nouveau (deux fois au plus).

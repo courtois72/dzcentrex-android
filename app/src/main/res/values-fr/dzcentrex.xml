@@ -41,4 +41,9 @@
     <string name="dz_renvois_numero_refuse">Numéro refusé : vérifiez les numéros saisis (pas de numéro d\'urgence)</string>
     <string name="dz_renvois_erreur_enregistrement">Enregistrement impossible. Vérifiez la connexion et réessayez.</string>
     <string name="dz_renvois_codes">Les mêmes réglages sont dans votre espace utilisateur et avec les codes du téléphone (*21, *67, *61, *78).</string>
+    <string name="dz_etat_disponible">Disponible</string>
+    <string name="dz_etat_sonne">Sonne</string>
+    <string name="dz_etat_en_appel">En appel</string>
+    <string name="dz_etat_ne_pas_deranger">Ne pas déranger</string>
+    <string name="dz_etat_hors_ligne">Hors ligne</string>
 </resources>
