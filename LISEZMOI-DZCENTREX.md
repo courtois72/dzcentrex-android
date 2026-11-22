@@ -27,6 +27,8 @@ Modifications par rapport à Linphone (voir l'historique Git) :
   (`publish_presence=0`) ;
 - état des collègues reçu du serveur tant que l'appli est ouverte (`/prov/etat`, `org.linphone.contacts.EtatDz`) :
   aucun abonnement SIP à leur présence (`friendlist_subscription_enabled=0`) ;
+- icônes d'état des contacts : coche verte (disponible), combiné orange (en appel, sonne), sens interdit rouge
+  (ne pas déranger), pastilles agrandies à 16dp ;
 - compilation par GitHub Actions (`.github/workflows/compiler.yml`).
 
 Le SDK Linphone n'est pas modifié (paquets publiés par Belledonne Communications).
