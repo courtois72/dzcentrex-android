@@ -112,7 +112,7 @@ android {
         versionCode = 602010 * 1000 + (System.getenv("GITHUB_RUN_NUMBER")?.toIntOrNull() ?: 0)
         versionName = "6.2.10"
         // DzCentrex : numéro de la version de test, affiché dans le menu et dans Aide (à changer à chaque compilation).
-        buildConfigField("String", "DZ_VERSION", "\"test16\"")
+        buildConfigField("String", "DZ_VERSION", "\"test17\"")
 
         manifestPlaceholders["appAuthRedirectScheme"] = packageName
 

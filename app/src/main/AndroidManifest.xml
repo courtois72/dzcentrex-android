@@ -6,6 +6,12 @@
         android:name="android.hardware.camera"
         android:required="false" />
 
+    <!-- DzCentrex : Wi-Fi impliqué par les autorisations Wi-Fi du SDK, facultatif pour ne pas exclure les appareils
+         sans Wi-Fi (exigence du Play Store). -->
+    <uses-feature
+        android:name="android.hardware.wifi"
+        android:required="false" />
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
